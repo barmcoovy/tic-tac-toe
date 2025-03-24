@@ -349,7 +349,14 @@ ol {
     transform: scale(1);
   }
 }
+<<<<<<< HEAD
 ol,
 li {
   list-style-type: none;
 }
+=======
+
+#game-board {
+  list-style-type: none;
+}
+>>>>>>> 07487ed6f8ee541cc963dffc0b52963b2256d74d
