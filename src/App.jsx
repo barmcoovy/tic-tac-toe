@@ -10,10 +10,17 @@ function App() {
   const handleSelectPlayer = () => {
     setActivePlayer((activePlayer) => {
       return activePlayer === "X" ? "O" : "X";
-
-      setGameTurns((prevTurns) => {
-        return updatedTurns;
-      });
+    });
+    setGameTurns((prevTurns) => {
+      let currentPlayer = "X";
+      if (prevTurns.length > 0 && prevTurns.length[0].player === "X") {
+        currentPlayer = "O";
+      }
+      const updatedTurns = [
+        { square: { row: rowIndex, col: colIndex }, player: currentPlayer },
+        ...prevTurns,
+      ];
+      return updatedTurns;
     });
   };
   return (
