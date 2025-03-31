@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
 const initialBoard = [
-  ["O", null, null],
-  [null, "X", null],
+  [null, null, null],
+  [null, null, null],
   [null, null, null],
 ];
 
 export default function GameBoard({
   onSelectSquare,
-  activePlayerSymbol,
+  // activePlayerSymbol,
   turns,
 }) {
   let board = initialBoard;
