@@ -1,6 +1,13 @@
 import Player from "./components/Player";
 import GameBoard from "./components/GameBoard";
 import { useState } from "react";
+import { WINNING_COMBINATIONS } from "./winning_combinations";
+
+const initialBoard = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+];
 
 const deriveActivePlayer = (turns) => {
   let currentPlayer = "X";
@@ -13,7 +20,25 @@ const deriveActivePlayer = (turns) => {
 function App() {
   const [gameTurns, setGameTurns] = useState([]);
 
-  // const [activePlayer, setActivePlayer] = useState("X");
+  let board = initialBoard;
+
+  for (const turn of gameTurns) {
+    const { square, player } = turn;
+    const { row, col } = square;
+    board[row][col] = player;
+  }
+
+  let winner = null;
+
+  for (const combination of WINNING_COMBINATIONS) {
+    const first = board[combination[0].row][combination[0].column];
+    const second = board[combination[1].row][combination[1].column];
+    const third = board[combination[2].row][combination[2].column];
+    if (first && first === second && second === third) {
+      winner = first;
+      break;
+    }
+  }
 
   const handleSelectPlayer = (rowIndex, colIndex) => {
     setGameTurns((prevTurns) => {
@@ -42,9 +67,13 @@ function App() {
         <GameBoard
           isActive={gameTurns[0]?.player === "O"}
           onSelectSquare={handleSelectPlayer}
-          // activePlayerSymbol={activePlayer}
-          turns={gameTurns}
+          board={board}
         />
+        {winner && (
+          <div id="winner">
+            <span className="highlight-player">{winner}</span> wins!
+          </div>
+        )}
       </div>
     </main>
   );
