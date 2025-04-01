@@ -19,7 +19,14 @@ const deriveActivePlayer = (turns) => {
 };
 
 const isBoardFull = (board) => {
-  return board.every((row) => row.every((cell) => cell !== null));
+  for (let row of board) {
+    for (let cell of row) {
+      if (cell === null) {
+        return false;
+      }
+    }
+  }
+  return true;
 };
 
 function App() {
