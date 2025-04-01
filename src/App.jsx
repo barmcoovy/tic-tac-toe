@@ -47,7 +47,7 @@ function App() {
 
   const handleSelectPlayer = (rowIndex, colIndex) => {
     if (winner || isBoardFull(board)) {
-      return; // Prevent further moves if there's a winner or the board is full
+      return;
     }
 
     setGameTurns((prevTurns) => {

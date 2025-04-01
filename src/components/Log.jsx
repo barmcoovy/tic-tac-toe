@@ -9,7 +9,8 @@ const Log = ({ turns }) => {
         return (
           <li key={index}>
             <span>
-              Gracz {player} postawił znak na wierszu {row} i kolumnie {col}
+              <strong>Gracz {player}</strong> postawił znak na wierszu {row} i
+              kolumnie {col}
             </span>
           </li>
         );
