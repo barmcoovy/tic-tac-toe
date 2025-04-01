@@ -3,6 +3,7 @@ import GameBoard from "./components/GameBoard";
 import { useState } from "react";
 import { WINNING_COMBINATIONS } from "./winning_combinations";
 import Log from "./components/Log";
+import GameOver from "./components/GameOver";
 
 const initialBoard = [
   [null, null, null],
@@ -67,6 +68,9 @@ function App() {
     });
   };
 
+  const restartGame = () => {
+    setGameTurns([]);
+  };
   return (
     <main>
       <div id="game-container">
@@ -98,6 +102,7 @@ function App() {
         )}
       </div>
       <Log turns={gameTurns} />
+      {winner && <GameOver winner={winner} restartGame={restartGame} />}
     </main>
   );
 }
