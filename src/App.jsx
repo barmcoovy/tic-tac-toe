@@ -2,6 +2,7 @@ import Player from "./components/Player";
 import GameBoard from "./components/GameBoard";
 import { useState } from "react";
 import { WINNING_COMBINATIONS } from "./winning_combinations";
+import Log from "./components/Log";
 
 const initialBoard = [
   [null, null, null],
@@ -15,6 +16,10 @@ const deriveActivePlayer = (turns) => {
     currentPlayer = "O";
   }
   return currentPlayer;
+};
+
+const isBoardFull = (board) => {
+  return board.every((row) => row.every((cell) => cell !== null));
 };
 
 function App() {
@@ -41,6 +46,10 @@ function App() {
   }
 
   const handleSelectPlayer = (rowIndex, colIndex) => {
+    if (winner || isBoardFull(board)) {
+      return; // Prevent further moves if there's a winner or the board is full
+    }
+
     setGameTurns((prevTurns) => {
       const currentPlayer = deriveActivePlayer(prevTurns);
       const updatedTurns = [
@@ -50,6 +59,7 @@ function App() {
       return updatedTurns;
     });
   };
+
   return (
     <main>
       <div id="game-container">
@@ -74,7 +84,13 @@ function App() {
             <span className="highlight-player">{winner}</span> wins!
           </div>
         )}
+        {!winner && isBoardFull(board) && (
+          <div id="winner">
+            <span className="highlight-player">It's a draw!</span>
+          </div>
+        )}
       </div>
+      <Log turns={gameTurns} />
     </main>
   );
 }
