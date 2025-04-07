@@ -33,8 +33,19 @@ const isBoardFull = (board) => {
 function App() {
   const [gameTurns, setGameTurns] = useState([]);
 
-  let board = initialBoard;
+  const [name, setName] = useState({
+    X: "Player 1",
+    O: "Player 2",
+  });
 
+  const handleNameChange = (player, newName) => {
+    setName((prevNames) => ({
+      ...prevNames,
+      [player]: newName,
+    }));
+  };
+
+  let board = initialBoard;
   for (const turn of gameTurns) {
     const { square, player } = turn;
     const { row, col } = square;
@@ -79,11 +90,13 @@ function App() {
             initialName={"Player 1"}
             symbol={"X"}
             isActive={gameTurns[0]?.player === "X"}
+            onNameChange={handleNameChange}
           />
           <Player
             initialName={"Player 2"}
             isActive={gameTurns[0]?.player === "O"}
             symbol={"O"}
+            onNameChange={handleNameChange}
           />
         </ol>
         <GameBoard
