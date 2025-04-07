@@ -83,6 +83,7 @@ function App() {
           <Player
             initialName={"Player 2"}
             isActive={gameTurns[0]?.player === "O"}
+            symbol={"O"}
           />
         </ol>
         <GameBoard
@@ -90,19 +91,12 @@ function App() {
           onSelectSquare={handleSelectPlayer}
           board={board}
         />
-        {winner && (
-          <div id="winner">
-            <span className="highlight-player">{winner}</span> wins!
-          </div>
-        )}
-        {!winner && isBoardFull(board) && (
-          <div id="winner">
-            <span className="highlight-player">It's a draw!</span>
-          </div>
-        )}
       </div>
       <Log turns={gameTurns} />
       {winner && <GameOver winner={winner} restartGame={restartGame} />}
+      {!winner && isBoardFull(board) && (
+        <GameOver winner={"Remis"} restartGame={restartGame} />
+      )}
     </main>
   );
 }
