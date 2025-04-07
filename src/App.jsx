@@ -30,9 +30,21 @@ const isBoardFull = (board) => {
   return true;
 };
 
+const determineWinner = (board, names) => {
+  for (const combination of WINNING_COMBINATIONS) {
+    const first = board[combination[0].row][combination[0].column];
+    const second = board[combination[1].row][combination[1].column];
+    const third = board[combination[2].row][combination[2].column];
+    if (first && first === second && second === third) {
+      return first === "X" ? names.X : names.O;
+    }
+  }
+  return null;
+};
+
 function App() {
   const [gameTurns, setGameTurns] = useState([]);
-
+  const [board, setBoard] = useState(initialBoard);
   const [name, setName] = useState({
     X: "Player 1",
     O: "Player 2",
@@ -45,27 +57,10 @@ function App() {
     }));
   };
 
-  let board = initialBoard;
-  for (const turn of gameTurns) {
-    const { square, player } = turn;
-    const { row, col } = square;
-    board[row][col] = player;
-  }
-
-  let winner = null;
-
-  for (const combination of WINNING_COMBINATIONS) {
-    const first = board[combination[0].row][combination[0].column];
-    const second = board[combination[1].row][combination[1].column];
-    const third = board[combination[2].row][combination[2].column];
-    if (first && first === second && second === third) {
-      winner = first;
-      break;
-    }
-  }
+  const winner = determineWinner(board, name);
 
   const handleSelectPlayer = (rowIndex, colIndex) => {
-    if (winner || isBoardFull(board)) {
+    if (winner || isBoardFull(board) || board[rowIndex][colIndex] !== null) {
       return;
     }
 
@@ -75,13 +70,24 @@ function App() {
         { square: { row: rowIndex, col: colIndex }, player: currentPlayer },
         ...prevTurns,
       ];
+
+      // Update the board state
+      const updatedBoard = board.map((row, rIdx) =>
+        row.map((cell, cIdx) =>
+          rIdx === rowIndex && cIdx === colIndex ? currentPlayer : cell
+        )
+      );
+      setBoard(updatedBoard);
+
       return updatedTurns;
     });
   };
 
   const restartGame = () => {
     setGameTurns([]);
+    setBoard(initialBoard);
   };
+
   return (
     <main>
       <div id="game-container">

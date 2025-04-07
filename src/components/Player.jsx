@@ -11,6 +11,9 @@ export default function Player({
 
   function handleClicking() {
     setIsEditing(!isEditing);
+    if (isEditing) {
+      onNameChange(symbol, name);
+    }
   }
 
   function handleEditing(event) {
